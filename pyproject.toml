@@ -7,7 +7,7 @@ name = "dtu_mlops_mnist"
 version = "0.0.1"
 description = "DTU MLOps simple CNN MNIST project"
 authors = [
-  { name = "Nicolas Jonsson", email = "your@email.com" },
+  { name = "Nicolas Jonsson", email = "nicolas.jonsson@bio.ku.dk" },
 ]
 license = { file = "LICENSE" }
 readme = "README.md"
@@ -25,3 +25,4 @@ dev = {file = ['requirements_dev.txt']}
 
 [tool.ruff]
 line-length = 120
+select = ["I"]
