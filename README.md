@@ -1,8 +1,6 @@
 # dtu_mlops_mnist
 
-DTU MLOps simple CNN MNIST project
-
-Machine Learning Operations course MNIST classifier project
+DTU Machine Learning Operations (MLOps) course simple CNN MNIST project
 
 ## How to run the code
 
