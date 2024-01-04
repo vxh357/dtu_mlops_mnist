@@ -1,7 +1,7 @@
 import click
 import torch
 from torch import nn
-from mlOps_mnist.models import model
+from dtu_mlops_mnist.models import model
 import os
 import datetime
 import matplotlib.pyplot as plt
