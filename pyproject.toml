@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dtu_mlops_mnist"
 version = "0.0.1"
-description = "DTU MLOps simple CNN MNIST project"
+description = "DTU Machine Learning Operations (MLOps) course. Simple CNN MNIST classifier project."
 authors = [
   { name = "Nicolas Jonsson", email = "nicolas.jonsson@bio.ku.dk" },
 ]
