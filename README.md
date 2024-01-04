@@ -2,6 +2,27 @@
 
 DTU MLOps simple CNN MNIST project
 
+Machine Learning Operations course MNIST classifier project
+
+## How to run the code
+
+Data preparation:
+```
+make data
+```
+Training:
+```
+make train
+```
+Prediction (example):
+```
+python dtu_mlops_mnist/predict_model.py -model_path=models/{name}/model.pth -data_path=data/raw/corruptmnist/test_images.pt
+```
+Visualization (example):
+```
+python dtu_mlops_mnist/visualizations/visualize.py -model_path=models/{name}/model.pth
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:
