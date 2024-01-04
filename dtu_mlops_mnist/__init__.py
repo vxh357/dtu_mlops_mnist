@@ -1,0 +1,2 @@
+from dtu_mlops_mnist.models.model import MyNeuralNet
+from dtu_mlops_mnist.predict_model import predict
