@@ -7,7 +7,7 @@ def make_data():
     This function loads training and testing data from stored .pt files, concatenates them,
     and performs normalization. Finally, it saves the processed datasets in a specified location.
 
-    The function assumes the data is stored in 'data/raw/corruptmnist/' directory in the form of .pt files.
+    The function assumes the data is stored in 'data/raw/' directory in the form of .pt files.
     The processed data is saved in the 'data/processed/' directory.
 
     No parameters are needed and no return values are provided. The function operates through file I/O.
@@ -18,16 +18,16 @@ def make_data():
     # Load training data and labels from multiple files and append to lists
     for i in range(9):
         # Loading training images and labels from each file
-        train_data.append(torch.load(f"data/raw/corruptmnist/train_images_{i}.pt"))
-        train_labels.append(torch.load(f"data/raw/corruptmnist/train_target_{i}.pt"))
+        train_data.append(torch.load(f"data/raw/train_images_{i}.pt"))
+        train_labels.append(torch.load(f"data/raw/train_target_{i}.pt"))
 
     # Concatenate all training data and labels along the first dimension
     train_data = torch.cat(train_data, dim=0)
     train_labels = torch.cat(train_labels, dim=0)
 
     # Load testing data and labels from files
-    test_data = torch.load("data/raw/corruptmnist/test_images.pt")
-    test_labels = torch.load("data/raw/corruptmnist/test_target.pt")
+    test_data = torch.load("data/raw/test_images.pt")
+    test_labels = torch.load("data/raw/test_target.pt")
 
     # Add a channel dimension to the data tensors
     train_data = train_data.unsqueeze(1)  # Transforming shape from [N, H, W] to [N, C, H, W]
