@@ -1,0 +1,7 @@
+dataset_path: "data/processed/train_dataset.pt"
+x_dim: 784
+class_num: 10
+batch_size: 256
+lr: 1e-3
+n_epochs: 20
+seed: 123

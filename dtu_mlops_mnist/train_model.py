@@ -1,52 +1,66 @@
+import datetime
+import logging
+import os
+
 import click
+import hydra
+from omegaconf import OmegaConf
 import torch
 from torch import nn
 from dtu_mlops_mnist.models import model
-import os
-import datetime
 import matplotlib.pyplot as plt
+
+log = logging.getLogger(__name__)
 
 # Choose the device for computation (GPU if available, otherwise CPU)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+log.info(f"Cuda available: {device}")
 
 @click.command()
 @click.option("--lr", default=1e-3, help="Learning rate to use for training")
 @click.option("--batch_size", default=256, help="Batch size to use for training")
 @click.option("--num_epochs", default=20, help="Number of epochs to train for")
-def train(lr, batch_size, num_epochs):
+
+@hydra.main(config_path="../config", config_name="default_config.yaml")
+def train(config: OmegaConf) -> None:
     """
     Trains a neural network model on the MNIST dataset.
 
-    This function sets up a training loop for the MNIST dataset using a specified learning rate, batch size,
-    and number of epochs. It tracks the loss across epochs and saves the trained model and a loss plot.
+    This function sets up a training loop for the MNIST dataset using parameters from the given configuration.
+    It tracks the loss across epochs and saves the trained model and a loss plot in designated directories.
+
+    The function is designed to be used with Hydra for configuration management, allowing parameters such as learning
+    rate, batch size, and number of epochs to be specified via configuration files or command line overrides.
 
     Args:
-        lr (float): Learning rate for the optimizer.
-        batch_size (int): Batch size for training.
-        num_epochs (int): Number of epochs for which the model will be trained.
+        config (OmegaConf): Configuration object containing parameters for training.
 
-    The function saves the trained model and a loss plot in designated directories.
+    The function does not return any value.
     """
-    print("Training day and night")
-    print(f"Learning Rate: {lr}")
-    print(f"Batch Size: {batch_size}")
+
+    log.info("Training day and night")
+    log.info(f"Configuration: \n {OmegaConf.to_yaml(config)}")
+    model_hparams = config.model
+    train_hparams = config.train
+    torch.manual_seed(train_hparams["seed"])
 
     # Initialize the neural network model
-    net = model.MyNeuralNet(784, 10).to(device)
+    net = model.MyNeuralNet(model_hparams, train_hparams["x_dim"], train_hparams["class_num"]).to(device)
 
     # Load the training dataset
-    train_set = torch.load("data/processed/train_dataset.pt")
-    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size)
+    train_set = torch.load(train_hparams["dataset_path"])
+    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=train_hparams["batch_size"])
 
     # Set up the optimizer and loss function
-    optimizer = torch.optim.Adam(net.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(net.parameters(), lr=train_hparams["lr"])
     loss_fn = nn.CrossEntropyLoss()
 
     # List to store loss values for each epoch
     loss_list = []
 
     # Training loop
-    for epoch in range(num_epochs):
+    for epoch in range(train_hparams["n_epochs"]):
         for batch in train_dataloader:
             optimizer.zero_grad()      # Zero the gradients before calculation
             x, y = batch               # Get input and target batches
@@ -57,7 +71,7 @@ def train(lr, batch_size, num_epochs):
             loss.backward()            # Backward pass to calculate gradients
             optimizer.step()           # Update model parameters
 
-        print(f"Epoch {epoch} Loss {loss}")
+        log.info(f"Epoch {epoch} Loss {loss}")
         loss_list.append(loss.cpu().detach().numpy())  # Store loss value
 
     # Save the trained model
@@ -72,7 +86,6 @@ def train(lr, batch_size, num_epochs):
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.title(f"Training Loss over Epochs (Model from {timestamp})")
-
     fig_savepath = "reports/figures/" + timestamp
     os.makedirs(fig_savepath)
     plt.savefig(f"{fig_savepath}/loss.pdf")

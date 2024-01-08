@@ -1,0 +1,7 @@
+# @package _group_
+hydra:
+  job: 
+    chdir:  False
+defaults:
+    - train: train1
+    - model: model1
