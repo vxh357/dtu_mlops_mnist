@@ -19,9 +19,9 @@ def test_train():
     """
 
     # Initialize Hydra with the test configuration
-    with initialize(version_base=None, config_path=f"../mlOps_mnist/config", job_name="test_training"):
+    with initialize(version_base=None, config_path="../dtu_mlops_mnist/config", job_name="test_training"):
         config = compose(config_name="default_config.yaml")
-
+    
     # Run the training and get the returned values
     _, loss_list, model_savepath, fig_savepath = train(config)
 

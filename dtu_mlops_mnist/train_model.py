@@ -4,7 +4,7 @@ import os
 
 import click
 import hydra
-from omegaconf import OmegaConf
+from omegaconf import OmegaConf, DictConfig
 import torch
 from torch import nn
 from dtu_mlops_mnist.models import model
@@ -14,8 +14,7 @@ import wandb
 
 wandb.init(
     # set the wandb project where this run will be logged
-    project="fashion_mnist_dtu_mlops", 
-    entity="nicolas-jonsson")
+    project="fashion_mnist_dtu_mlops")
 
 log = logging.getLogger(__name__)
 
@@ -24,13 +23,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 log.info(f"Cuda available: {device}")
 
-@click.command()
-@click.option("--lr", default=1e-3, help="Learning rate to use for training")
-@click.option("--batch_size", default=256, help="Batch size to use for training")
-@click.option("--num_epochs", default=20, help="Number of epochs to train for")
+#@click.command()
+#@click.option("--lr", default=1e-3, help="Learning rate to use for training")
+#@click.option("--batch_size", default=256, help="Batch size to use for training")
+#@click.option("--num_epochs", default=20, help="Number of epochs to train for")
 
 @hydra.main(config_path="config", config_name="default_config.yaml")
-def train(config: OmegaConf) -> None:
+def train(config: DictConfig) -> None:
     """
     Trains a neural network model on the MNIST dataset.
 
@@ -101,6 +100,8 @@ def train(config: OmegaConf) -> None:
     plt.savefig(f"{fig_savepath}/loss.pdf")
     log.info(f"Loss figure saved to {fig_savepath}/loss.pdf")
     
+    return net, loss_list, model_savepath, fig_savepath
+
     # wandb.log({"Test loss plot": fig})
 
 if __name__ == "__main__":

@@ -6,9 +6,10 @@ from dtu_mlops_mnist.models import model
 # Choose the device for computation (GPU if available, otherwise CPU)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-@click.command()
-@click.option('-model_path', prompt='Model path', help='Path to the model.')
-@click.option('-data_path', prompt='Data path', help='Path to the data to be processed.')
+#@click.command()
+#@click.option('-model_path', prompt='Model path', help='Path to the model.')
+#@click.option('-data_path', prompt='Data path', help='Path to the data to be processed.')
+
 @hydra.main(config_path="config", config_name="default_config.yaml", version_base=None)
 def predict(config):
     """
