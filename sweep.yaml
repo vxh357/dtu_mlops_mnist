@@ -1,0 +1,14 @@
+program: dtu_mlops_mnist/models/train_model.py
+method: bayes
+metric:
+  name: loss
+  goal: minimize
+parameters:
+  train.lr:
+    min: 0.0001
+    max: 0.1
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

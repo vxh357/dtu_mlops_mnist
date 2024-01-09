@@ -10,6 +10,13 @@ from torch import nn
 from dtu_mlops_mnist.models import model
 import matplotlib.pyplot as plt
 
+import wandb
+
+wandb.init(
+    # set the wandb project where this run will be logged
+    project="fashion_mnist_dtu_mlops", 
+    entity="nicolas-jonsson")
+
 log = logging.getLogger(__name__)
 
 # Choose the device for computation (GPU if available, otherwise CPU)
@@ -73,12 +80,14 @@ def train(config: OmegaConf) -> None:
 
         log.info(f"Epoch {epoch} Loss {loss}")
         loss_list.append(loss.cpu().detach().numpy())  # Store loss value
+        wandb.log({"loss": loss})
 
     # Save the trained model
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     model_savepath = "models/" + timestamp
     os.makedirs(model_savepath)
     torch.save(net.state_dict(), f"{model_savepath}/model.pth")
+    log.info(f"Model saved to {model_savepath}/model.pth")
 
     # Plot and save the loss graph
     plt.figure()
@@ -86,9 +95,13 @@ def train(config: OmegaConf) -> None:
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.title(f"Training Loss over Epochs (Model from {timestamp})")
+    
     fig_savepath = "reports/figures/" + timestamp
     os.makedirs(fig_savepath)
     plt.savefig(f"{fig_savepath}/loss.pdf")
+    log.info(f"Loss figure saved to {fig_savepath}/loss.pdf")
+    
+    # wandb.log({"Test loss plot": fig})
 
 if __name__ == "__main__":
     train()
