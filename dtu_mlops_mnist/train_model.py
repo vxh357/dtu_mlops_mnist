@@ -29,7 +29,7 @@ log.info(f"Cuda available: {device}")
 @click.option("--batch_size", default=256, help="Batch size to use for training")
 @click.option("--num_epochs", default=20, help="Number of epochs to train for")
 
-@hydra.main(config_path="../config", config_name="default_config.yaml")
+@hydra.main(config_path="config", config_name="default_config.yaml")
 def train(config: OmegaConf) -> None:
     """
     Trains a neural network model on the MNIST dataset.
