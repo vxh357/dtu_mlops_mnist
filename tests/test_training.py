@@ -5,6 +5,7 @@ from hydra import compose, initialize
 from dtu_mlops_mnist.train_model import train
 from tests import _PATH_DATA, _PROJECT_ROOT, _TEST_ROOT
 
+
 # Define a pytest test function
 @pytest.mark.skipif(not os.path.exists(f"{_PATH_DATA}/processed/train_dataset.pt"), reason="Data files not found")
 def test_train():
@@ -21,7 +22,7 @@ def test_train():
     # Initialize Hydra with the test configuration
     with initialize(version_base="1.1", config_path="../dtu_mlops_mnist/config", job_name="test_training"):
         config = compose(config_name="default_config.yaml")
-    
+
     # Run the training and get the returned values
     _, loss_list, model_savepath, fig_savepath = train(config)
 

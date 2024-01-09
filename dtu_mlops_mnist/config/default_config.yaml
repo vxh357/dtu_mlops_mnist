@@ -1,5 +1,5 @@
 hydra:
-  job: 
+  job:
     chdir:  False
 defaults:
     - _self_

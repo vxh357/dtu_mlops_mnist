@@ -1,5 +1,6 @@
 import torch
 
+
 def make_data():
     """
     Creates and saves training and testing datasets for the CorruptMNIST dataset.
@@ -31,7 +32,7 @@ def make_data():
 
     # Add a channel dimension to the data tensors
     train_data = train_data.unsqueeze(1)  # Transforming shape from [N, H, W] to [N, C, H, W]
-    test_data = test_data.unsqueeze(1)    # where N is batch size, C is channel (1 here), H is height, W is width
+    test_data = test_data.unsqueeze(1)  # where N is batch size, C is channel (1 here), H is height, W is width
 
     # Normalize data to have 0 mean and standard deviation of 1
     train_data = (train_data - train_data.mean()) / train_data.std()
@@ -40,10 +41,11 @@ def make_data():
     # Creating dataset objects from the data and labels
     train_dataset = torch.utils.data.TensorDataset(train_data, train_labels)
     test_dataset = torch.utils.data.TensorDataset(test_data, test_labels)
-    
+
     # Save the processed datasets for future use
     torch.save(train_dataset, "data/processed/train_dataset.pt")
     torch.save(test_dataset, "data/processed/test_dataset.pt")
+
 
 if __name__ == "__main__":
     make_data()

@@ -12,16 +12,17 @@ from pytorch_lightning.loggers import WandbLogger
 log = logging.getLogger(__name__)
 log.info(f"Cuda available: {torch.cuda.is_available()}")
 
+
 @hydra.main(config_path="config", config_name="default_config.yaml")
 def train(config):
     """
     Trains a Feedforward Neural Network (FNN) on the MNIST dataset.
 
-    This function initializes and trains a neural network model defined in 'model_lightning'. 
-    The training parameters, model configuration, and other settings are controlled by a 
+    This function initializes and trains a neural network model defined in 'model_lightning'.
+    The training parameters, model configuration, and other settings are controlled by a
     configuration file managed by Hydra.
 
-    The training process includes early stopping for convergence and logs the training progress 
+    The training process includes early stopping for convergence and logs the training progress
     to Weights & Biases (wandb).
 
     Args:
@@ -36,26 +37,14 @@ def train(config):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Initialize the neural network model
-    net = model_lightning.MyNeuralNet(
-        model_hparams, 
-        train_hparams["x_dim"], 
-        train_hparams["class_num"]
-    ).to(device)
+    net = model_lightning.MyNeuralNet(model_hparams, train_hparams["x_dim"], train_hparams["class_num"]).to(device)
 
     # Load the training dataset and create a DataLoader
     train_set = torch.load(train_hparams["dataset_path"])
-    train_dataloader = torch.utils.data.DataLoader(
-        train_set, 
-        batch_size=train_hparams["batch_size"]
-    )
+    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=train_hparams["batch_size"])
 
     # Set up early stopping based on the training loss
-    early_stopping_callback = EarlyStopping(
-        monitor="loss", 
-        patience=3, 
-        verbose=True, 
-        mode="min"
-    )
+    early_stopping_callback = EarlyStopping(monitor="loss", patience=3, verbose=True, mode="min")
 
     # Configure the PyTorch Lightning trainer
     trainer = Trainer(
@@ -64,7 +53,7 @@ def train(config):
         limit_train_batches=0.2,
         callbacks=[early_stopping_callback],
         accelerator="auto",
-        logger=WandbLogger(project="fashion_mnist_dtu_mlops"), # logger=pl.loggers.WandbLogger(project="dtu_mlops")
+        logger=WandbLogger(project="fashion_mnist_dtu_mlops"),  # logger=pl.loggers.WandbLogger(project="dtu_mlops")
         precision="16-mixed",
         profiler="advanced",
     )
@@ -80,6 +69,7 @@ def train(config):
     log.info(f"Model saved to {os.path.join(model_savepath, 'model.pth')}")
 
     # Optional: Code to plot and save the loss graph can be added here
+
 
 if __name__ == "__main__":
     train()

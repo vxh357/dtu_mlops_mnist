@@ -15,7 +15,8 @@ import wandb
 wandb.init(
     # set the wandb project where this run will be logged
     project="fashion_mnist_dtu_mlops",
-    entity="vxh357-dtu_mlops",)
+    entity="vxh357-dtu_mlops",
+)
 
 log = logging.getLogger(__name__)
 
@@ -24,10 +25,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 log.info(f"Cuda available: {device}")
 
-#@click.command()
-#@click.option("--lr", default=1e-3, help="Learning rate to use for training")
-#@click.option("--batch_size", default=256, help="Batch size to use for training")
-#@click.option("--num_epochs", default=20, help="Number of epochs to train for")
+# @click.command()
+# @click.option("--lr", default=1e-3, help="Learning rate to use for training")
+# @click.option("--batch_size", default=256, help="Batch size to use for training")
+# @click.option("--num_epochs", default=20, help="Number of epochs to train for")
+
 
 @hydra.main(version_base="1.1", config_path="config", config_name="default_config.yaml")
 def train(config: DictConfig) -> None:
@@ -69,21 +71,21 @@ def train(config: DictConfig) -> None:
     # Training loop
     for epoch in range(train_hparams["n_epochs"]):
         for batch in train_dataloader:
-            optimizer.zero_grad()      # Zero the gradients before calculation
-            x, y = batch               # Get input and target batches
-            x = x.to(device)           # Move input to computation device
-            y = y.to(device)           # Move target to computation device
-            y_pred = net(x)            # Forward pass through the model
+            optimizer.zero_grad()  # Zero the gradients before calculation
+            x, y = batch  # Get input and target batches
+            x = x.to(device)  # Move input to computation device
+            y = y.to(device)  # Move target to computation device
+            y_pred = net(x)  # Forward pass through the model
             loss = loss_fn(y_pred, y)  # Calculate loss
-            loss.backward()            # Backward pass to calculate gradients
-            optimizer.step()           # Update model parameters
+            loss.backward()  # Backward pass to calculate gradients
+            optimizer.step()  # Update model parameters
 
         log.info(f"Epoch {epoch} Loss {loss}")
         loss_list.append(loss.cpu().detach().numpy())  # Store loss value
         wandb.log({"loss": loss})
 
     # Save the trained model
-    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     model_savepath = "models/" + timestamp
     os.makedirs(model_savepath)
     torch.save(net.state_dict(), f"{model_savepath}/model.pth")
@@ -95,15 +97,16 @@ def train(config: DictConfig) -> None:
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.title(f"Training Loss over Epochs (Model from {timestamp})")
-    
+
     fig_savepath = "reports/figures/" + timestamp
     os.makedirs(fig_savepath)
     plt.savefig(f"{fig_savepath}/loss.pdf")
     log.info(f"Loss figure saved to {fig_savepath}/loss.pdf")
-    
+
     return net, loss_list, model_savepath, fig_savepath
 
     # wandb.log({"Test loss plot": fig})
+
 
 if __name__ == "__main__":
     train()

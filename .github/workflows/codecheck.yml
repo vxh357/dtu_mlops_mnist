@@ -25,7 +25,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.11.7
-    
+
     - name: install ruff
       run: |
         pip install ruff

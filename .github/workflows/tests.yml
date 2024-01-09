@@ -44,7 +44,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements_tests.txt
-    
+
     - name: wandb login
       run: |
         wandb login ${{ secrets.WANDB_KEY }}

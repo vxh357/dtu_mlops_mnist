@@ -6,9 +6,10 @@ from dtu_mlops_mnist.models import model
 # Choose the device for computation (GPU if available, otherwise CPU)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-#@click.command()
-#@click.option('-model_path', prompt='Model path', help='Path to the model.')
-#@click.option('-data_path', prompt='Data path', help='Path to the data to be processed.')
+# @click.command()
+# @click.option('-model_path', prompt='Model path', help='Path to the model.')
+# @click.option('-data_path', prompt='Data path', help='Path to the data to be processed.')
+
 
 @hydra.main(config_path="config", config_name="default_config.yaml", version_base=None)
 def predict(config):
@@ -45,6 +46,7 @@ def predict(config):
     click.echo(torch.argmax(pred, dim=1))
     return pred
 
+
 # Commented-out code for an alternate predict function
 # def predict(
 #     model: torch.nn.Module,
@@ -55,11 +57,11 @@ def predict(config):
 
 #     This function is designed to take a PyTorch model and a tensor of data, and return the predictions.
 #     It is currently not in use and serves as an example or template for a different prediction approach.
-    
+
 #     Args:
 #         model: Model to use for prediction.
 #         data: Data tensor for prediction.
-    
+
 #     Returns:
 #         torch.Tensor: Concatenated predictions for the input data.
 #     """

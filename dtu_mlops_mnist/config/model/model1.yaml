@@ -1,5 +1,5 @@
 l1_dim: 256
 l2_dim: 128
 l3_dim: 64
-dropout_rate: 0.2 
+dropout_rate: 0.2
 model_pred_path: "models/2024-01-09_13-36-54/model.pth"

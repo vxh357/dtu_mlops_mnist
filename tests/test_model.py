@@ -7,6 +7,7 @@ from dtu_mlops_mnist.models import model
 from dtu_mlops_mnist.predict_model import predict
 from tests import _PATH_DATA
 
+
 # Test model output dimensions on random input data
 @pytest.mark.parametrize("test_data", [torch.randn(1, 1, 28, 28), torch.randn(20, 1, 28, 28)])
 def test_model(test_data):

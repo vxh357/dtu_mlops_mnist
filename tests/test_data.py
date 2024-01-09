@@ -5,6 +5,7 @@ import torch
 
 from tests import _PATH_DATA
 
+
 # Define a pytest test function
 @pytest.mark.skipif(not os.path.exists(f"{_PATH_DATA}/processed/train_dataset.pt"), reason="Data files not found")
 def test_data():
@@ -29,12 +30,11 @@ def test_data():
     assert len(test_set) == 5000, "Dataset did not have the correct number of samples"
 
     # Check the dimensions of samples in both datasets
-    assert (
-        train_set[:][0].shape == torch.Size([45000, 1, 28, 28]) and
-        test_set[:][0].shape == torch.Size([5000, 1, 28, 28])
+    assert train_set[:][0].shape == torch.Size([45000, 1, 28, 28]) and test_set[:][0].shape == torch.Size(
+        [5000, 1, 28, 28]
     ), "The dimensions of samples are not correct"
 
     # Check if the dataset contains all the expected classes (0 to 9)
-    assert (
-        (torch.unique(train_set[:][1]) == torch.tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])).sum() == torch.tensor(10)
+    assert (torch.unique(train_set[:][1]) == torch.tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])).sum() == torch.tensor(
+        10
     ), "The dataset does not contain all the classes"

@@ -4,11 +4,12 @@ from pytorch_lightning import LightningModule
 from torch import nn, optim
 import wandb
 
+
 class MyNeuralNet(LightningModule):
     """
     A basic neural network model built using PyTorch Lightning.
 
-    This class defines a simple feedforward neural network with configurable layers and dropout rates. 
+    This class defines a simple feedforward neural network with configurable layers and dropout rates.
     It includes methods for the forward pass, training step, and optimizer configuration.
 
     Attributes:
@@ -17,7 +18,7 @@ class MyNeuralNet(LightningModule):
         criteriun (nn.Module): The loss function used for training the model.
 
     Args:
-        model_hparams (dict): A dictionary containing hyperparameters for the model, such as layer 
+        model_hparams (dict): A dictionary containing hyperparameters for the model, such as layer
         dimensions and dropout rate.
         in_features (int): The number of input features for the model.
         out_features (int): The number of output features (or classes) for the model.
@@ -74,12 +75,12 @@ class MyNeuralNet(LightningModule):
         preds = self(data)  # Perform forward pass
         loss = self.criteriun(preds, target)  # Calculate loss
         acc = (target == preds.argmax(dim=-1)).float().mean()
-        self.log('train_loss', loss)
-        self.log('train_acc', acc)
-        
+        self.log("train_loss", loss)
+        self.log("train_acc", acc)
+
         # self.logger.experiment is the same as wandb.log
-        self.logger.experiment.log({'logits': wandb.Histrogram(preds)})
-        
+        self.logger.experiment.log({"logits": wandb.Histrogram(preds)})
+
         return loss
 
     def configure_optimizers(self):
