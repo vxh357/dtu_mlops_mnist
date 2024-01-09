@@ -1,4 +1,5 @@
 dataset_path: "data/processed/train_dataset.pt"
+test_dataset_path: "data/processed/test_dataset.pt"
 x_dim: 784
 class_num: 10
 batch_size: 256

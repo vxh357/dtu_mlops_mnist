@@ -3,5 +3,6 @@ hydra:
   job: 
     chdir:  False
 defaults:
+    - _self_
     - train: train1
     - model: model1
