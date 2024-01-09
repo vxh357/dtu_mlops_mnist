@@ -1,6 +1,6 @@
 import torch
 import click
-
+import hydra
 from dtu_mlops_mnist.models import model
 
 # Choose the device for computation (GPU if available, otherwise CPU)
@@ -9,7 +9,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 @click.command()
 @click.option('-model_path', prompt='Model path', help='Path to the model.')
 @click.option('-data_path', prompt='Data path', help='Path to the data to be processed.')
-def predict(model_path, data_path):
+@hydra.main(config_path="config", config_name="default_config.yaml", version_base=None)
+def predict(config):
     """
     Loads a trained neural network model and predicts outputs on given data.
 
@@ -24,18 +25,20 @@ def predict(model_path, data_path):
         torch.Tensor: The predictions made by the model on the input data.
     """
     print("Predicting model on data")
+    model_hparams = config.model
+    train_hparams = config.train
 
     # Load the neural network model
-    net = model.MyNeuralNet(784, 10).to(device)
-    net.load_state_dict(torch.load(model_path))
+    net = model.MyNeuralNet(model_hparams, train_hparams["x_dim"], train_hparams["class_num"]).to(device)
+    net.load_state_dict(torch.load(model_hparams["model_pred_path"], map_location=torch.device("cpu")))
     net.eval()
 
     # Load and normalize the input data
-    data = torch.load(data_path)
+    data = torch.load(train_hparams["test_dataset_path"], map_location=torch.device("cpu"))
     data = (data - data.mean()) / data.std()  # Normalize the data
 
     # Make predictions
-    pred = net(data.to(device)).cpu().detach()  # Move data to device, predict, and detach from graph
+    pred = net(data[:][0].to(device)).cpu().detach()  # Move data to device, predict, and detach from graph
 
     # Output the predictions
     click.echo(torch.argmax(pred, dim=1))
