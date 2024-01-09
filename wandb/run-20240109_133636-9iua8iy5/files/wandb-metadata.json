@@ -1,0 +1,37 @@
+{
+    "os": "macOS-14.2.1-arm64-arm-64bit",
+    "python": "3.11.7",
+    "heartbeatAt": "2024-01-09T12:36:37.268629",
+    "startedAt": "2024-01-09T12:36:36.547486",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/vxh357/Developer/courses/dtu_mlops_mnist/dtu_mlops_mnist/train_model.py",
+    "codePathLocal": "dtu_mlops_mnist/train_model.py",
+    "codePath": "dtu_mlops_mnist/train_model.py",
+    "git": {
+        "remote": "https://github.com/vxh357/dtu_mlops_mnist.git",
+        "commit": "57f407afd66e3be1d1b1d540b11a965966506233"
+    },
+    "email": "vxh357@gmail.com",
+    "root": "/Users/vxh357/Developer/courses/dtu_mlops_mnist",
+    "host": "SCI1020489",
+    "username": "vxh357",
+    "executable": "/Users/vxh357/Developer/anaconda3/envs/dtu_mlops/bin/python",
+    "cpu_count": 10,
+    "cpu_count_logical": 10,
+    "disk": {
+        "/": {
+            "total": 1858.1917190551758,
+            "used": 291.27109146118164
+        }
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 32.0
+    }
+}

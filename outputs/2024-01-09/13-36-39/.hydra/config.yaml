@@ -1,0 +1,14 @@
+train:
+  dataset_path: data/processed/train_dataset.pt
+  x_dim: 784
+  class_num: 10
+  batch_size: 256
+  lr: 0.001
+  n_epochs: 20
+  seed: 123
+model:
+  l1_dim: 256
+  l2_dim: 128
+  l3_dim: 64
+  dropout_rate: 0.2
+  model_pred_path: models/test/model.pth

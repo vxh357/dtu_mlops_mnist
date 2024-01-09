@@ -1,4 +1,4 @@
-.PHONY: create_environment requirements dev_requirements clean data build_documentation serve_documentation
+.PHONY: *e
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -20,7 +20,7 @@ create_environment:
 requirements:
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-	$(PYTHON_INTERPRETER) -m pip install .
+	$(PYTHON_INTERPRETER) -m pip install -e .
 
 ## Install Developer Python Dependencies
 dev_requirements: requirements
