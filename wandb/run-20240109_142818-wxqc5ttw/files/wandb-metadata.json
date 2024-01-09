@@ -1,0 +1,38 @@
+{
+    "os": "macOS-14.2.1-arm64-arm-64bit",
+    "python": "3.11.7",
+    "heartbeatAt": "2024-01-09T13:28:20.028464",
+    "startedAt": "2024-01-09T13:28:18.769102",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "tests/test_training.py"
+    ],
+    "state": "running",
+    "program": "/Users/vxh357/Developer/anaconda3/envs/dtu_mlops/bin/pytest",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/vxh357/dtu_mlops_mnist.git",
+        "commit": "d06df2ffacdc628fa51d4a790716ae562d1abb4d"
+    },
+    "email": "vxh357@gmail.com",
+    "root": "/Users/vxh357/Developer/courses/dtu_mlops_mnist",
+    "host": "SCI1020489",
+    "username": "vxh357",
+    "executable": "/Users/vxh357/Developer/anaconda3/envs/dtu_mlops/bin/python3.11",
+    "cpu_count": 10,
+    "cpu_count_logical": 10,
+    "disk": {
+        "/": {
+            "total": 1858.1917190551758,
+            "used": 291.23559951782227
+        }
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 32.0
+    }
+}
