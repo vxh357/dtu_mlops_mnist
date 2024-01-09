@@ -14,7 +14,8 @@ import wandb
 
 wandb.init(
     # set the wandb project where this run will be logged
-    project="fashion_mnist_dtu_mlops")
+    project="fashion_mnist_dtu_mlops",
+    entity="vxh357-dtu_mlops",)
 
 log = logging.getLogger(__name__)
 

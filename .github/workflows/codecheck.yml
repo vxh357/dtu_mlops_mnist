@@ -1,0 +1,36 @@
+name: "Run code formatting check"
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11.7
+    
+    - name: install ruff
+      run: |
+        pip install ruff
+
+    - name: Test and format the repository with ruff
+      run: |
+        ruff test
+        ruff format
